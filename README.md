@@ -66,7 +66,8 @@ We want your group to work on a topic you like.
 - **1st Choice Subject**: +20 points.
 - **2nd Choice Subject**: +15 points.
 - **3rd Choice Subject**: +10 points.
-- **4th/5th... Choice**: +0 points.
+- **4th Choice Subject**: +5 points.
+- **5th Choice Subject**: +2 points.
 
 *Note: The system considers the preferences of ALL group members. It will try to find a subject that is highly ranked by everyone in the group, rather than giving one person their top choice and others their last choice.*
 

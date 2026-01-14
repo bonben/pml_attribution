@@ -89,6 +89,8 @@ def solve_attribution(students, subjects, target_group_size=3):
                 if rank == 0: reward = 20
                 elif rank == 1: reward = 15
                 elif rank == 2: reward = 10
+                elif rank == 3: reward = 5   # 4th Choice
+                elif rank == 4: reward = 2   # 5th Choice
                 
                 if reward > 0:
                     z = model.NewBoolVar(f'z_{s_idx}_{g}_{sub_idx}')
@@ -151,6 +153,12 @@ def solve_attribution(students, subjects, target_group_size=3):
                         elif rank == 2: 
                             reward = 10
                             notes.append(f"Subject Rank 3 (+10)")
+                        elif rank == 3: 
+                            reward = 5
+                            notes.append(f"Subject Rank 4 (+5)")
+                        elif rank == 4: 
+                            reward = 2
+                            notes.append(f"Subject Rank 5 (+2)")
                         else:
                             reward = 0
                             notes.append(f"Subject Rank {rank+1} (+0)")
