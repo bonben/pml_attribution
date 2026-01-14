@@ -60,7 +60,7 @@ def solve_attribution(students, subjects, target_group_size=3):
         for choice_priority, partner_id in enumerate(s.get('partner_choices', [])):
             if partner_id in id_to_idx:
                 p_idx = id_to_idx[partner_id]
-                weight = 10 # Modified: Equal weight for 1st and 2nd choice
+                weight = 5 # Strict Priority: Low weight to ensure Subject Rank wins
                 
                 for g in range(num_groups):
                     b_together = model.NewBoolVar(f'together_{s_idx}_{p_idx}_{g}')
@@ -86,11 +86,11 @@ def solve_attribution(students, subjects, target_group_size=3):
                 
                 rank = ranks.get(sub['id'])
                 reward = 0
-                if rank == 0: reward = 20
-                elif rank == 1: reward = 15
-                elif rank == 2: reward = 10
-                elif rank == 3: reward = 5   # 4th Choice
-                elif rank == 4: reward = 2   # 5th Choice
+                if rank == 0: reward = 100
+                elif rank == 1: reward = 80
+                elif rank == 2: reward = 60
+                elif rank == 3: reward = 40   # 4th Choice
+                elif rank == 4: reward = 20   # 5th Choice
                 
                 if reward > 0:
                     z = model.NewBoolVar(f'z_{s_idx}_{g}_{sub_idx}')
@@ -145,20 +145,20 @@ def solve_attribution(students, subjects, target_group_size=3):
                         rank = s['subject_ranks'].index(assigned_subject['id'])
                         # Reward mapping matching the model
                         if rank == 0: 
-                            reward = 20
-                            notes.append(f"Subject Rank 1 (+20)")
+                            reward = 100
+                            notes.append(f"Subject Rank 1 (+100)")
                         elif rank == 1: 
-                            reward = 15
-                            notes.append(f"Subject Rank 2 (+15)")
+                            reward = 80
+                            notes.append(f"Subject Rank 2 (+80)")
                         elif rank == 2: 
-                            reward = 10
-                            notes.append(f"Subject Rank 3 (+10)")
+                            reward = 60
+                            notes.append(f"Subject Rank 3 (+60)")
                         elif rank == 3: 
-                            reward = 5
-                            notes.append(f"Subject Rank 4 (+5)")
+                            reward = 40
+                            notes.append(f"Subject Rank 4 (+40)")
                         elif rank == 4: 
-                            reward = 2
-                            notes.append(f"Subject Rank 5 (+2)")
+                            reward = 20
+                            notes.append(f"Subject Rank 5 (+20)")
                         else:
                             reward = 0
                             notes.append(f"Subject Rank {rank+1} (+0)")
@@ -169,8 +169,8 @@ def solve_attribution(students, subjects, target_group_size=3):
                 # 2. Partner Score
                 for idx, partner_id in enumerate(s.get('partner_choices', [])):
                     if partner_id in member_ids:
-                        score += 10
-                        notes.append(f"Matched Choice {idx+1}: {partner_id} (+10)")
+                        score += 5
+                        notes.append(f"Matched Choice {idx+1}: {partner_id} (+5)")
                             
                 group_score += score
                 member_details.append({
