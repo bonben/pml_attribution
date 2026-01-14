@@ -56,12 +56,7 @@ The score is calculated based on three main criteria, in this order of importanc
 - **Groups of 4 are NOT allowed.**
 - Groups of 2 are allowed if necessary (e.g., if there are 4 students, we make two groups of 2).
 
-### B. Partner Preferences
-We want you to be with people you chose. 
-- **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a large point boost (+10 points).
-- **Mutual Choices**: If you pick someone AND they pick you back, the points stack up, making it extremely likely you will be grouped together.
-
-### C. Subject Preferences
+### B. Subject Preferences
 We want your group to work on a topic you like.
 - **1st Choice Subject**: +20 points.
 - **2nd Choice Subject**: +15 points.
@@ -70,6 +65,11 @@ We want your group to work on a topic you like.
 - **5th Choice Subject**: +2 points.
 
 *Note: The system considers the preferences of ALL group members. It will try to find a subject that is highly ranked by everyone in the group, rather than giving one person their top choice and others their last choice.*
+
+### C. Partner Preferences (Optional)
+You can indicate who you would like to work with **if you want**.
+- **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a large point boost (+10 points).
+- **Mutual Choices**: If you pick someone AND they pick you back, the points stack up, making it extremely likely you will be grouped together.
 
 ## Summary
 The algorithm looks for a solution that:
