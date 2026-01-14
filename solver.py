@@ -39,11 +39,12 @@ def solve_attribution(students, subjects, target_group_size=3):
         model.Add(sum(x[s_idx, g] for g in range(num_groups)) == 1)
 
     # 2. Group size constraints
-    # Min 2, max 4. Target 3.
+    # Min 2, max 3. Target 3.
+    # User Requirement: Never 4. 2 groups of 2 is better than 1 of 4.
     for g in range(num_groups):
         size = sum(x[s_idx, g] for s_idx in range(num_students))
         model.Add(size >= 2)
-        model.Add(size <= 4)
+        model.Add(size <= 3)
         
         # Each group must have exactly one subject
         model.Add(sum(y[g, sub_idx] for sub_idx in range(len(subjects))) == 1)

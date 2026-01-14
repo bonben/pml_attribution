@@ -53,7 +53,8 @@ The score is calculated based on three main criteria, in this order of importanc
 
 ### A. Group Size (Highest Priority)
 - The algorithm aims for groups of **3 students**.
-- Groups of 2 or 4 are allowed only if mathematically necessary (e.g., if the total number of students isn't divisible by 3).
+- **Groups of 4 are NOT allowed.**
+- Groups of 2 are allowed if necessary (e.g., if there are 4 students, we make two groups of 2).
 
 ### B. Partner Preferences
 We want you to be with people you chose. 
@@ -94,7 +95,7 @@ The solver doesn't just randomly flip switches. It uses advanced mathematical te
 
 2.  **Branching and Backtracking**:
     When logic alone isn't enough, it makes a tentative decision (e.g., "Let's try putting Charlie in Group 2"). It then propagates the consequences.
-    - If it hits a contradiction (e.g., "Oops, now Group 2 has 5 people"), it **backtracks** immediately, undoing that decision and marking it as invalid.
+    - If it hits a contradiction (e.g., "Oops, now Group 2 has 4 people"), it **backtracks** immediately, undoing that decision and marking it as invalid.
     - This intelligent trial-and-error allows it to explore the entire feasible mathematical space without checking every single option one by one.
 
 #### Global Optimality
