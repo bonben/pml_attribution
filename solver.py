@@ -60,7 +60,7 @@ def solve_attribution(students, subjects, target_group_size=3):
         for choice_priority, partner_id in enumerate(s.get('partner_choices', [])):
             if partner_id in id_to_idx:
                 p_idx = id_to_idx[partner_id]
-                weight = 10 if choice_priority == 0 else 5 # Higher weight for 1st choice
+                weight = 10 # Modified: Equal weight for 1st and 2nd choice
                 
                 for g in range(num_groups):
                     b_together = model.NewBoolVar(f'together_{s_idx}_{p_idx}_{g}')
@@ -161,12 +161,8 @@ def solve_attribution(students, subjects, target_group_size=3):
                 # 2. Partner Score
                 for idx, partner_id in enumerate(s.get('partner_choices', [])):
                     if partner_id in member_ids:
-                        if idx == 0:
-                            score += 10
-                            notes.append(f"Matched Choice 1: {partner_id} (+10)")
-                        else:
-                            score += 5
-                            notes.append(f"Matched Choice {idx+1}: {partner_id} (+5)")
+                        score += 10
+                        notes.append(f"Matched Choice {idx+1}: {partner_id} (+10)")
                             
                 group_score += score
                 member_details.append({

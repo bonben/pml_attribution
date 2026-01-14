@@ -58,8 +58,7 @@ The score is calculated based on three main criteria, in this order of importanc
 
 ### B. Partner Preferences
 We want you to be with people you chose. 
-- **1st Choice Partner**: If you are placed in a group with your 1st choice, the system gets a large point boost (+10 points).
-- **2nd Choice Partner**: If you are placed with your 2nd choice, it gets a smaller boost (+5 points).
+- **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a large point boost (+10 points).
 - **Mutual Choices**: If you pick someone AND they pick you back, the points stack up, making it extremely likely you will be grouped together.
 
 ### C. Subject Preferences
