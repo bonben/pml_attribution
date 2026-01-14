@@ -1,4 +1,45 @@
-# How Groups and Subjects are Assigned
+# Student Group Attribution Tool
+
+A command-line tool to optimize student group formation and subject assignment based on ranked preferences.
+
+## 🚀 How to Use
+
+### 1. Installation
+Requires Python 3.8+.
+```bash
+# Clone the repository
+git clone git@github.com:bonben/pml_attribution.git
+cd pml_attribution
+
+# Create a virtual environment (optional but recommended)
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 2. Prepare Data
+Create a CSV file (e.g., `students.csv`) with the required columns. 
+The tool supports Google Forms export format with columns like:
+- `Your email`
+- `Rank your Top 5 Subject Preferences ... [Subject Name]`
+- `Student 1` (Partner Choice 1)
+- `Student 2` (Partner Choice 2)
+
+See `example_input.csv` (if available) or the code for details.
+
+### 3. Run the Solver
+```bash
+python attribution.py --input students.csv --output results.csv
+```
+This generates:
+- `results.csv`: The final groups.
+- `results_report.txt`: A detailed explanation of scores.
+
+---
+
+# 🎓 How Groups and Subjects are Assigned (Student Guide)
 
 To ensure fairness, the group formation and subject attribution process is performed by an optimization algorithm (Constraint Satisfaction Solver). This avoids manual bias and maximizes the overall satisfaction of the entire class.
 
@@ -41,8 +82,6 @@ It is a mathematical guarantee that the result is the "best possible compromise"
 The problem is modeled as a **Constraint Satisfaction Problem (CP)** and solved using Google's **OR-Tools (CP-SAT Solver)**.
 
 ### The Algorithm: CP-SAT
-The problem is modeled as a **Constraint Satisfaction Problem (CP)** and solved using Google's **OR-Tools (CP-SAT Solver)**.
-
 Unlike "heuristic" algorithms (like Genetic Algorithms or Simulated Annealing) which guess and improve, this approach is **exact and exhaustive**.
 
 #### How it explores the solution space
