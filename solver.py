@@ -50,13 +50,18 @@ def solve_attribution(students, subjects, target_group_size=3):
         model.Add(sum(y[g, sub_idx] for sub_idx in range(len(subjects))) == 1)
 
     # Objective Function
-    obj_terms = []
+    score_vars = [] # All objective terms will be added here
 
     # Map student ID to index for easier lookup
     id_to_idx = {s['id']: i for i, s in enumerate(students)}
-
+    
     # 1. Partner Preferences
-    for s_idx, s in enumerate(students):
+    # Per-group partner score accumulation
+    group_partner_scores = [[] for _ in range(num_groups)]
+
+    for s_idx in range(num_students):
+        s = students[s_idx]
+        
         for choice_priority, partner_id in enumerate(s.get('partner_choices', [])):
             if partner_id in id_to_idx:
                 p_idx = id_to_idx[partner_id]
@@ -64,9 +69,24 @@ def solve_attribution(students, subjects, target_group_size=3):
                 
                 for g in range(num_groups):
                     b_together = model.NewBoolVar(f'together_{s_idx}_{p_idx}_{g}')
+                    # b_together is true ONLY if both s and p are in group g
                     model.AddBoolAnd([x[s_idx, g], x[p_idx, g]]).OnlyEnforceIf(b_together)
                     model.AddBoolOr([x[s_idx, g].Not(), x[p_idx, g].Not()]).OnlyEnforceIf(b_together.Not())
-                    obj_terms.append(weight * b_together)
+                    
+                    # Add to group list
+                    group_partner_scores[g].append(b_together * weight)
+
+    # Apply CAP per group
+    # Cap = 80. 
+    # Logic: capped_score <= raw_sum AND capped_score <= 80. 
+    # Since we Maximize, it will push to min(raw, 80).
+    for g in range(num_groups):
+        if group_partner_scores[g]:
+            raw_sum = sum(group_partner_scores[g])
+            capped_var = model.NewIntVar(0, 500, f'capped_partner_score_{g}') # Max possible is 3 students * 2 partners * 25 = 150, but 500 is safe upper bound
+            model.Add(capped_var <= raw_sum)
+            model.Add(capped_var <= 80)
+            score_vars.append(capped_var)
 
     # 2. Subject Preferences
     # Map subject ID to index
@@ -127,65 +147,63 @@ def solve_attribution(students, subjects, target_group_size=3):
             
             # Calculate Score Details for Report
             member_details = []
-            group_score = 0
+            group_subject_score = 0
+            group_partner_raw_score = 0
             
             # Map IDs for easy lookup
             member_ids = {m['id'] for m in group_members}
             
+            # 1. Calculate Subject Scores
             for s in group_members:
-                score = 0
+                sub_score = 0
                 notes = []
-                
-                # 1. Subject Score
+                # ... Subject Logic ...
                 rank = -1
-                # s['subject_ranks'] is list of names/ids
-                # Need to match with assigned_subject['id']
                 if assigned_subject:
                     try:
                         rank = s['subject_ranks'].index(assigned_subject['id'])
-                        # Reward mapping matching the model
-                        if rank == 0: 
-                            reward = 100
-                            notes.append(f"Subject Rank 1 (+100)")
-                        elif rank == 1: 
-                            reward = 80
-                            notes.append(f"Subject Rank 2 (+80)")
-                        elif rank == 2: 
-                            reward = 60
-                            notes.append(f"Subject Rank 3 (+60)")
-                        elif rank == 3: 
-                            reward = 40
-                            notes.append(f"Subject Rank 4 (+40)")
-                        elif rank == 4: 
-                            reward = 20
-                            notes.append(f"Subject Rank 5 (+20)")
-                        else:
-                            reward = 0
-                            notes.append(f"Subject Rank {rank+1} (+0)")
-                        score += reward
+                        if rank == 0: sub_score = 100
+                        elif rank == 1: sub_score = 80
+                        elif rank == 2: sub_score = 60
+                        elif rank == 3: sub_score = 40
+                        elif rank == 4: sub_score = 20
+                        
+                        notes.append(f"Subject Rank {rank+1} (+{sub_score})")
                     except ValueError:
                         notes.append("Subject Unranked (+0)")
                 
-                # 2. Partner Score
+                # Partner Raw Calculation (per student contribution)
+                p_contribution = 0
                 for idx, partner_id in enumerate(s.get('partner_choices', [])):
                     if partner_id in member_ids:
-                        score += 25
-                        notes.append(f"Matched Choice {idx+1}: {partner_id} (+25)")
-                            
-                group_score += score
+                        p_contribution += 25
+                        notes.append(f"Partner Match: {partner_id} (Raw +25)")
+                
+                group_subject_score += sub_score
+                group_partner_raw_score += p_contribution
+                
                 member_details.append({
                     "name": s['name'],
                     "email": s['email'],
-                    "score": score,
+                    "raw_score": sub_score + p_contribution, # For CSV roughly
                     "notes": ", ".join(notes)
                 })
+
+            # Apply Partner Cap
+            capped_partner_score = min(group_partner_raw_score, 80)
+            total_group_score = group_subject_score + capped_partner_score
+            
+            # Add a meta-detail for the report regarding the cap
+            cap_note = ""
+            if group_partner_raw_score > 80:
+                cap_note = f"(Partner Score Capped: {group_partner_raw_score} -> 80)"
 
             results.append({
                 "group_id": g + 1,
                 "members": group_members,
                 "subject": assigned_subject,
                 "details": member_details,
-                "total_score": group_score
+                "total_score": f"{total_group_score} {cap_note}"
             })
         return results
     else:

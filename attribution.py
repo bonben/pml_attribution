@@ -108,7 +108,7 @@ def main():
             
             for m in group['details']:
                 f.write(f"  - {m['name']} ({m['email']})\n")
-                f.write(f"    Score Contribution: {m['score']}\n")
+                f.write(f"    Raw Score Contribution: {m['raw_score']}\n")
                 f.write(f"    Details: {m['notes']}\n")
             f.write("\n")
 
@@ -122,7 +122,7 @@ def main():
             sub_name = group['subject']['name'] if group['subject'] else "Unassigned"
             
             for m in group['details']:
-                writer.writerow([g_id, sub_name, m['name'], m['email'], m['score'], m['notes']])
+                writer.writerow([g_id, sub_name, m['name'], m['email'], m['raw_score'], m['notes']])
                 
     print("Done.")
 
