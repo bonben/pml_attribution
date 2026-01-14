@@ -70,6 +70,7 @@ We want your group to work on a topic you like.
 You can indicate who you would like to work with **if you want**.
 - **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a bonus (+25 points).
 - **Mutual Choices**: If you pick someone AND they pick you back, the points stack up.
+- **Friendship Limit**: To ensure large friend groups do not unfairly "steal" subjects from others, there is a maximum limit on how much "friendship points" a single group can accumulate (80 points).
 
 ## Summary
 The algorithm looks for a solution that:
