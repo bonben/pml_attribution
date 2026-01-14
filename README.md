@@ -68,7 +68,7 @@ We want your group to work on a topic you like.
 
 ### C. Partner Preferences (Optional)
 You can indicate who you would like to work with **if you want**.
-- **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a small bonus (+5 points).
+- **Partner Choice**: If you are placed in a group with someone you chose (whether 1st or 2nd choice), the system gets a bonus (+25 points).
 - **Mutual Choices**: If you pick someone AND they pick you back, the points stack up.
 
 ## Summary
