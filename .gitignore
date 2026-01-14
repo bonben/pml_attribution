@@ -1,5 +1,6 @@
 __pycache__/
 venv/
-*.csv
+final_groups.csv
+results.csv
 *.db
 *.DS_Store
