@@ -1,0 +1,23 @@
+Student Attribution Detailed Report
+===================================
+
+Group 1: Subject 2
+Total Group Satisfaction Score: 40
+----------------------------------------
+  - Student C (student.c@example.com)
+    Score Contribution: 20
+    Details: Subject Rank 1 (+20)
+  - Student I (student.i@example.com)
+    Score Contribution: 20
+    Details: Subject Rank 1 (+20)
+
+Group 2: Subject 1
+Total Group Satisfaction Score: 40
+----------------------------------------
+  - Student A (student.a@example.com)
+    Score Contribution: 20
+    Details: Subject Rank 1 (+20)
+  - Student F (student.f@example.com)
+    Score Contribution: 20
+    Details: Subject Rank 1 (+20)
+
