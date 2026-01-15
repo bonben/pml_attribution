@@ -1,3 +1,6 @@
+> [!NOTE]
+> This project has been generated with Antigravity.
+
 # Student Group Attribution Tool
 
 A command-line tool to optimize student group formation and subject assignment based on ranked preferences.
