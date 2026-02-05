@@ -47,11 +47,21 @@ def main():
                 }
                 
                 # Partners: "Student 1", "Student 2"
+                s_dict['warnings'] = []
+                
                 p1 = row.get('Student 1', '').strip()
-                if p1: s_dict['partner_choices'].append(p1)
+                if p1: 
+                    if p1 == email:
+                        s_dict['warnings'].append(f"Ignored self-choice (Student 1)")
+                    else:
+                        s_dict['partner_choices'].append(p1)
                 
                 p2 = row.get('Student 2', '').strip()
-                if p2: s_dict['partner_choices'].append(p2)
+                if p2: 
+                    if p2 == email:
+                        s_dict['warnings'].append(f"Ignored self-choice (Student 2)")
+                    else:
+                        s_dict['partner_choices'].append(p2)
                     
                 # Parse Subject Ranks
                 # Values are "1st Choice", "2nd Choice", etc.

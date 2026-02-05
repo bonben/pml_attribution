@@ -182,6 +182,9 @@ def solve_attribution(students, subjects, target_group_size=3):
                         p_contribution += 25
                         notes.append(f"Partner Match: {partner_id} (Raw +25)")
                 
+                if s.get('warnings'):
+                    notes.extend(s['warnings'])
+                
                 group_subject_score += sub_score
                 group_partner_raw_score += p_contribution
                 
