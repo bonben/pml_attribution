@@ -87,9 +87,8 @@ def solve_attribution(students, subjects, target_group_size=3):
     for g in range(num_groups):
         if group_partner_scores[g]:
             raw_sum = sum(group_partner_scores[g])
-            capped_var = model.NewIntVar(0, 500, f'capped_partner_score_{g}') # Max possible is 3 students * 2 partners * 25 = 150, but 500 is safe upper bound
-            model.Add(capped_var <= 80)
-            obj_terms.append(capped_var)
+            # Removed CAP: capped_var logic removed
+            obj_terms.append(raw_sum)
 
     # 2. Subject Preferences
     # Map subject ID to index
@@ -195,14 +194,12 @@ def solve_attribution(students, subjects, target_group_size=3):
                     "notes": ", ".join(notes)
                 })
 
-            # Apply Partner Cap
-            capped_partner_score = min(group_partner_raw_score, 80)
+            # Apply Partner Cap: REMOVED
+            capped_partner_score = group_partner_raw_score
             total_group_score = group_subject_score + capped_partner_score
             
             # Add a meta-detail for the report regarding the cap
             cap_note = ""
-            if group_partner_raw_score > 80:
-                cap_note = f"(Partner Score Capped: {group_partner_raw_score} -> 80)"
 
             results.append({
                 "group_id": g + 1,
