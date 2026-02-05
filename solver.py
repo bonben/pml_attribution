@@ -49,8 +49,12 @@ def solve_attribution(students, subjects, target_group_size=3):
         # Each group must have exactly one subject
         model.Add(sum(y[g, sub_idx] for sub_idx in range(len(subjects))) == 1)
 
+    # 3. Subject Uniqueness: A subject must not be assigned twice
+    for sub_idx in range(len(subjects)):
+        model.Add(sum(y[g, sub_idx] for g in range(num_groups)) <= 1)
+
     # Objective Function
-    score_vars = [] # All objective terms will be added here
+    obj_terms = [] # All objective terms will be added here
 
     # Map student ID to index for easier lookup
     id_to_idx = {s['id']: i for i, s in enumerate(students)}
@@ -84,9 +88,8 @@ def solve_attribution(students, subjects, target_group_size=3):
         if group_partner_scores[g]:
             raw_sum = sum(group_partner_scores[g])
             capped_var = model.NewIntVar(0, 500, f'capped_partner_score_{g}') # Max possible is 3 students * 2 partners * 25 = 150, but 500 is safe upper bound
-            model.Add(capped_var <= raw_sum)
             model.Add(capped_var <= 80)
-            score_vars.append(capped_var)
+            obj_terms.append(capped_var)
 
     # 2. Subject Preferences
     # Map subject ID to index

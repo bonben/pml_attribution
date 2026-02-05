@@ -94,7 +94,10 @@ def main():
     print(f"Success! Formed {len(results)} groups.")
     
     # Generate Detailed Report
-    report_filename = args.output.replace(".csv", "_report.txt")
+    if args.output.endswith(".csv"):
+        report_filename = args.output.replace(".csv", "_report.txt")
+    else:
+        report_filename = args.output + "_report.txt"
     print(f"Writing detailed report to {report_filename}...")
     with open(report_filename, 'w', encoding='utf-8') as f:
         f.write("Student Attribution Detailed Report\n")
