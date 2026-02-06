@@ -11,7 +11,7 @@ class SolutionPrinter(cp_model.CpSolverSolutionCallback):
         print(f'Solution {self.__solution_count}, time = {self.WallTime():.2f} s, objective = {self.ObjectiveValue()}')
 
 
-def solve_attribution(students, subjects, target_group_size=3):
+def solve_attribution(students, subjects, target_group_size=3, verbose=False):
     """
     students: list of dicts {
         'id': str/int, 
@@ -140,7 +140,7 @@ def solve_attribution(students, subjects, target_group_size=3):
     # Solve
     model.Maximize(sum(obj_terms))
     solver = cp_model.CpSolver()
-    solver.parameters.log_search_progress = True
+    solver.parameters.log_search_progress = verbose
     
     print("Starting solver...")
     solution_printer = SolutionPrinter()

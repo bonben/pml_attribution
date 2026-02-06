@@ -7,6 +7,7 @@ def main():
     parser = argparse.ArgumentParser(description="Student Group Attribution from CSV")
     parser.add_argument("--input", required=True, help="Input CSV file path")
     parser.add_argument("--output", required=True, help="Output CSV file path")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose solver logging")
     args = parser.parse_args()
 
     students = []
@@ -94,7 +95,7 @@ def main():
     print(f"Found {len(students)} students and {len(subjects)} unique subjects.")
     print("Running solver...")
     
-    results = solve_attribution(students, subjects)
+    results = solve_attribution(students, subjects, verbose=args.verbose)
     
     if not results:
         print("No feasible solution found.")
