@@ -233,7 +233,7 @@ def generate_html(groups, output_file):
             margin-bottom: 8px;
         }}
 
-        .member-score {
+        .member-score {{
             font-size: 0.75rem;
             color: #fff;
             /* background set inline dynamically */
@@ -244,7 +244,7 @@ def generate_html(groups, output_file):
             display: inline-block;
             vertical-align: middle;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        }}
         
         .badges {{
             display: flex;
