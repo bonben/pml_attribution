@@ -53,14 +53,14 @@ def main():
                 if p1: 
                     if p1 == email:
                         s_dict['warnings'].append(f"Ignored self-choice (Student 1)")
-                    else:
+                    elif p1 not in s_dict['partner_choices']:
                         s_dict['partner_choices'].append(p1)
                 
                 p2 = row.get('Student 2', '').strip()
                 if p2: 
                     if p2 == email:
                         s_dict['warnings'].append(f"Ignored self-choice (Student 2)")
-                    else:
+                    elif p2 not in s_dict['partner_choices']:
                         s_dict['partner_choices'].append(p2)
                     
                 # Parse Subject Ranks
