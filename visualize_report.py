@@ -236,7 +236,7 @@ def generate_html(groups, output_file):
         .member-score {
             font-size: 0.75rem;
             color: #fff;
-            background: linear-gradient(135deg, #10b981, #059669);
+            /* background set inline dynamically */
             font-weight: 700;
             margin-left: 10px;
             padding: 2px 8px;
@@ -367,13 +367,30 @@ def generate_html(groups, output_file):
             if "Ignored self-choice" in details:
                  badges_html += f'<span class="badge badge-gray">Self-choice Ignored</span>'
 
+            # Determine score color
+            try:
+                raw_score_val = int(m['raw_score'])
+            except:
+                raw_score_val = 0
+                
+            if raw_score_val >= 120:
+                score_bg = "linear-gradient(135deg, #10b981, #059669)" # Green
+            elif raw_score_val >= 100:
+                score_bg = "linear-gradient(135deg, #0ea5e9, #0284c7)" # Blue
+            elif raw_score_val >= 80:
+                score_bg = "linear-gradient(135deg, #84cc16, #65a30d)" # Lime
+            elif raw_score_val >= 60:
+                score_bg = "linear-gradient(135deg, #f59e0b, #d97706)" # Amber
+            else:
+                score_bg = "linear-gradient(135deg, #ef4444, #b91c1c)" # Red
+
             html_content += f"""
                     <div class="member">
                         <div class="avatar">{initials}</div>
                         <div class="member-info">
                             <div class="member-name">
                                 {m['name']}
-                                <span class="member-score">+{m['raw_score']}</span>
+                                <span class="member-score" style="background: {score_bg}">+{m['raw_score']}</span>
                             </div>
                             <div class="member-email">{m['email']}</div>
                             <div class="badges">
