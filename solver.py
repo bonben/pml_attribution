@@ -1,5 +1,16 @@
 from ortools.sat.python import cp_model
 
+class SolutionPrinter(cp_model.CpSolverSolutionCallback):
+    """Print intermediate solutions."""
+    def __init__(self):
+        cp_model.CpSolverSolutionCallback.__init__(self)
+        self.__solution_count = 0
+
+    def on_solution_callback(self):
+        self.__solution_count += 1
+        print(f'Solution {self.__solution_count}, time = {self.WallTime():.2f} s, objective = {self.ObjectiveValue()}')
+
+
 def solve_attribution(students, subjects, target_group_size=3):
     """
     students: list of dicts {
@@ -129,7 +140,11 @@ def solve_attribution(students, subjects, target_group_size=3):
     # Solve
     model.Maximize(sum(obj_terms))
     solver = cp_model.CpSolver()
-    status = solver.Solve(model)
+    solver.parameters.log_search_progress = True
+    
+    print("Starting solver...")
+    solution_printer = SolutionPrinter()
+    status = solver.Solve(model, solution_printer)
 
     results = []
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
