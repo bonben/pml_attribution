@@ -233,12 +233,18 @@ def generate_html(groups, output_file):
             margin-bottom: 8px;
         }}
 
-        .member-score {{
-            font-size: 0.8rem;
-            color: var(--success);
+        .member-score {
+            font-size: 0.75rem;
+            color: #fff;
+            background: linear-gradient(135deg, #10b981, #059669);
             font-weight: 700;
-            margin-left: 8px;
-        }}
+            margin-left: 10px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            vertical-align: middle;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
         
         .badges {{
             display: flex;
